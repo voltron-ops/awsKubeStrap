@@ -1,11 +1,11 @@
 #!/bin/bash
 
-echo "############Updating Packages###########"
+echo -e "\n############Updating Packages###########\n"
 
 sudo apt update
 sudo apt upgrade -y
 
-echo "############Installing kubelet, kubeadm & kubectl###############"
+echo -e "\n############Installing kubelet, kubeadm & kubectl###############\n"
 
 sudo apt -y install curl apt-transport-https
 sudo apt -y install curl apt-transport-https
@@ -15,12 +15,12 @@ sudo apt update
 sudo apt -y install vim git curl wget kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-echo "###########Disable Swap##############"
+echo -e "\n###########Disable Swap##############\n"
 
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 sudo swapoff -a
 
-echo "###########Enable kernel modules and configure sysctl############"
+echo -e "\n###########Enable kernel modules and configure sysctl############\n"
 
 sudo modprobe overlay
 sudo modprobe br_netfilter
@@ -33,7 +33,7 @@ EOF
 
 sudo sysctl --system
 
-echo "###########Install Container Runtime##################"
+echo -e "\n###########Install Container Runtime##################\n"
 
 sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates
 
@@ -61,7 +61,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 sudo systemctl enable docker
 
-echo "###############Enable Kubelet##############"
+echo -e "\n###############Enable Kubelet##############\n"
 
 sudo systemctl enable kubelet.service
 sudo systemctl start kubelet
