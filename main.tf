@@ -64,7 +64,7 @@ resource "aws_route_table_association" "cluster-vpc-rt-subnet" {
 resource "aws_security_group" "cluster-sg" {
   name        = "allow_ssh"
   description = "Allow SSH Inbound Connections"
-  vpc_id      = aws_vpc.web-vpc.id
+  vpc_id      = aws_vpc.cluster-vpc.id
 
   ingress = [
     {
@@ -104,7 +104,7 @@ resource "aws_security_group" "cluster-sg" {
 
 data "aws_ami" "latest_ami_ap" {
   most_recent = true
-  owners      = ["amazon"]
+  owners = ["099720109477"]
 
   filter {
     name   = "name"
@@ -124,6 +124,12 @@ resource "aws_instance" "master-node"{
     security_groups = [aws_security_group.cluster-sg.id]
     subnet_id = aws_subnet.cluster-subnet.id
     user_data = file("kubestrap.sh")
+
+    tags = {
+    "Name"        = "K8s Master Node"
+    "environment" = "dev"
+    "terraform"   = "true"
+  }
 }
 
 resource "aws_instance" "worker-node01"{
@@ -134,6 +140,12 @@ resource "aws_instance" "worker-node01"{
     security_groups = [aws_security_group.cluster-sg.id]
     subnet_id = aws_subnet.cluster-subnet.id
     user_data = file("kubestrap.sh")
+
+    tags = {
+    "Name"        = "K8s Worker Node 01"
+    "environment" = "dev"
+    "terraform"   = "true"
+  }
 }
 
 resource "aws_instance" "worker-node02"{
@@ -144,5 +156,11 @@ resource "aws_instance" "worker-node02"{
     security_groups = [aws_security_group.cluster-sg.id]
     subnet_id = aws_subnet.cluster-subnet.id
     user_data = file("kubestrap.sh")
+
+    tags = {
+    "Name"        = "K8s Worker Node 02"
+    "environment" = "dev"
+    "terraform"   = "true"
+  }
 }
 
