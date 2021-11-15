@@ -63,4 +63,5 @@ sudo systemctl enable docker
 
 echo "###############Enable Kubelet##############"
 
-sudo systemctl enable kubelet
+sudo systemctl enable kubelet.service
+sudo systemctl start kubelet
